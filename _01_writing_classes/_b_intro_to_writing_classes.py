@@ -7,6 +7,18 @@ import unittest
 # TODO Create a class called student with the member variables and
 #  methods used in the test class below to make all the tests pass
 
+class Student:
+    def __init__(self, name, grade):
+        self.name = name
+        self.grade = grade
+        self.homework_done = False
+
+    def do_homework(self):
+        self.homework_done = True
+
+    def go_to_school(self, start = "7 am"):
+        return self.name + " is leaving for school at " + start
+
 
 # ================== DO NOT MODIFY THE CODE BELOW ============================
 

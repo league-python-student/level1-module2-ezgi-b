@@ -30,7 +30,7 @@ class Duck(Animal):
     # This is a constructor! It's called when an object of this class
     # is created. The 'self' variable is always the first input parameter
     # and is used to create instance variables and call methods.
-    def __init__(self, name):
+    def __init__(self, name, color, age):
 
         Duck.num_ducks_created = Duck.num_ducks_created + 1
 
@@ -38,6 +38,8 @@ class Duck(Animal):
         # the constructor
         self.new_instance_variable = 'A new instance variable!'
         self.name = name
+        self.color = color
+        self.age = age
 
         # This is a local variable and can only be used in the constructor
         new_local_variable = 'A new local variable!'
@@ -50,11 +52,16 @@ class Duck(Animal):
         # The instance variable can be used throughout the class
         print(self.name + ' the Duck was created!')
 
+    def print_info(self):
+        print(self.name + " is a " + self.color + " duck who is " + str(self.age) + " years old.")
+
+    def ask_for_lemonade(self):
+        print(self.name + " walked up to the lemonade stand - they said to the man, running the stand, 'hey, bum bum bum, got any grapes?'")
 
 if __name__ == '__main__':
     # TODO 1) Create an object of the Duck class, for example
     #  kenny = Duck('Kenny')
-
+    duckie = Duck("Duckie", "yellow", 3)
     # TODO 2) Add 2 more input variables into the Duck constructor
 
     # TODO 3) Create 2 instance variables in the Duck class
@@ -64,6 +71,12 @@ if __name__ == '__main__':
 
     # TODO 5) Create 2 more Ducks with different names and call the methods
     #  created in the previous step
+    bob = Duck("Bob", "orange", 4)
+    jill = Duck("Jill", "brown", 4.5)
+    bob.print_info()
+    jill.print_info()
+    bob.ask_for_lemonade()
+    jill.ask_for_lemonade()
 
     if Duck.num_ducks_created < 3:
         print('There are only ' + str(Duck.num_ducks_created) + ' Ducks.')
