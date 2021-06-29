@@ -9,7 +9,7 @@ def setup():
     # 1. Use the size function to set the width and height of the program
     size(500, 500)
     # 2. Remove the comment (the '#') in the line below 
-    global bg, bird, lower_pipe, upper_pipe
+    global bg, bird, lower_pipe, upper_pipe, score, passed
     
     # 3. Use the loadImage function to inialize the bg variable with the
     # flappyBackground.jpg image 
@@ -27,11 +27,13 @@ def setup():
     # 7. Call the reset_pipes function to set the initial positions
     # of the pipes
     reset_pipes(lower_pipe, upper_pipe)
+    score = 0
+    passed = False
 
 def draw():
     pass
     # 8. Remove the comment (the '#') in the line below
-    global bg, bird, lower_pipe, upper_pipe
+    global bg, bird, lower_pipe, upper_pipe, score, passed
     
     # 9. Use the background function to draw the game's background
     background(bg)
@@ -49,11 +51,13 @@ def draw():
     lower_pipe.draw()
     # 20. Call the upper and lower pipe's draw methods. 
     # Do the pipes move across the screen?
-
+    textSize(30)
+    text("Score: " + str(score), 100, 80)
     # 21. Call the reset_pipes function defined below when the pipes
     # move past the screen to reset their position. 
     if upper_pipe.x < random(-100, -20):
         reset_pipes(lower_pipe, upper_pipe)
+        passed = False
     # 22. Call the intersects_pipes function defined below to check if
     # the bird collided with one of the pipes. If there's a collision,
     # stop the game by calling noLoop()  
@@ -61,6 +65,9 @@ def draw():
         noLoop()
     # 23. End the game if the bird flies too low (hitting the ground)
     # OR flies too high (above the screen)
+    if bird.x > lower_pipe.x + lower_pipe.width and not passed:
+        score += 1
+        passed = True
     
 
 class Bird:
@@ -71,18 +78,22 @@ class Bird:
         self.height = ( 3 * self.width ) / 4
         self.image = loadImage(image_file)
         self.image.resize(self.width, self.height)
+        self.time = 10
         
         # 11. Initialize a member variable for gravity (typically 1 to 5)
         self.gravity = 3
         # 12. Add a member variable for the distance the bird travels
         # upward when it flaps (jumps)
-        self.jump_height = 10
+        self.jump_height = 60
     # 13. Create an update method that will update the bird's position
     # while the game runs
     def update(self):
         self.y += self.gravity
-        if mousePressed:
+        if mousePressed and self.time >= 10:
             self.y -= self.jump_height
+            self.time = 0
+        else:
+            self.time += 1
         # 14. Move the bird downward by the gravity member variable to make
         # it look like the bird is falling
         
@@ -98,7 +109,7 @@ class Bird:
         
 
 class Pipe:
-    pipe_gap = 150
+    pipe_gap = 200
     
     def __init__(self, image_file, pipe_y=0, pipe_height=0):
         self.x = width
